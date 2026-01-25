@@ -6,7 +6,7 @@ import src.ast_nodes as ast
 class LLVMCodeGen(NodeVisitor):
     def __init__(self):
         self.module = ir.Module(name="main_module")
-        self.module.triple = "x86_64-pc-linux-gnu"
+        self.module.triple = "x86_64-pc-windows-gnu"
         self.builder = None
         self.func_symtab = {}
         self.functions = {}
