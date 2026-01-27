@@ -8,13 +8,12 @@ class TestParser(unittest.TestCase):
     def setUp(self):
         pass
 
-    def create_parser(self, tokens):
+    def inizializzazione_parser(self, tokens):
         if not tokens or tokens[-1].type != TokenType.EOF:
             tokens.append(Token(TokenType.EOF))
         return Parser(tokens)
 
-    # Espressioni e Precedenza
-    def test_binary_precedence(self):
+    def test_precedenza(self):
         # Test: 1 + 2 * 3
         tokens = [
             Token(TokenType.INTEGER, 1),
@@ -37,7 +36,7 @@ class TestParser(unittest.TestCase):
         self.assertEqual(expr.right.left.value, 2)
         self.assertEqual(expr.right.right.value, 3)
 
-    def test_pipe_operator(self):
+    def test_operatore_pipe(self):
         # Test: a |> b
         tokens = [
             Token(TokenType.ID, "a"),
@@ -52,8 +51,7 @@ class TestParser(unittest.TestCase):
         self.assertEqual(stmt.expr.left.name, "a")
         self.assertEqual(stmt.expr.right.name, "b")
 
-    # Dichiarazioni
-    def test_var_decl(self):
+    def test_dichiarazione_variabile(self):
         # Test: let x = 10;
         tokens = [
             Token(TokenType.LET),
@@ -69,7 +67,7 @@ class TestParser(unittest.TestCase):
         self.assertEqual(node.name, "x")
         self.assertEqual(node.initializer.value, 10)
 
-    def test_func_decl(self):
+    def test_dichiarazione_funzione(self):
         # Test: func add(a, b) { return a + b; }
         tokens = [
             Token(TokenType.FUNC),
@@ -96,7 +94,7 @@ class TestParser(unittest.TestCase):
         self.assertIsInstance(node.body, ast.Block)
         self.assertIsInstance(node.body.statements[0], ast.ReturnStmt)
 
-    def test_extern_decl(self):
+    def test_dichiarazione_funzione_esterna(self):
         # Test: extern func print(n);
         tokens = [
             Token(TokenType.EXTERN),
@@ -115,7 +113,7 @@ class TestParser(unittest.TestCase):
         self.assertEqual(node.params, ["n"])
 
     # Statement e Loop Speciali
-    def test_repeat_stmt(self):
+    def test_reapeat(self):
         # Test: repeat(5) { ... }
         tokens = [
             Token(TokenType.REPEAT),
@@ -133,7 +131,7 @@ class TestParser(unittest.TestCase):
         self.assertIsInstance(stmt.count, ast.LiteralExpr)
         self.assertEqual(stmt.count.value, 5)
 
-    def test_while_stmt(self):
+    def test_while(self):
         # Test: while(x < 10) { ... }
         tokens = [
             Token(TokenType.WHILE),
@@ -151,8 +149,8 @@ class TestParser(unittest.TestCase):
         self.assertIsInstance(stmt, ast.WhileStmt)
         self.assertIsInstance(stmt.condition, ast.BinaryExpr)
 
-    # Disambiguazione Lambda vs Parentesi
-    def test_parens_expression(self):
+    # Il parser deve essere in grado di distinguere una variabile tra parentesi e l'espressione lambda
+    def test_espressione_con_parentesi(self):
         # Test: (x)
         tokens = [
             Token(TokenType.LPAREN),
@@ -166,7 +164,7 @@ class TestParser(unittest.TestCase):
         self.assertIsInstance(stmt.expr, ast.VariableExpr)
         self.assertEqual(stmt.expr.name, "x")
 
-    def test_lambda_expression(self):
+    def test_espressione_lambda(self):
         # Test: (x) => x + 1
         tokens = [
             Token(TokenType.LPAREN),
@@ -185,7 +183,7 @@ class TestParser(unittest.TestCase):
         self.assertEqual(stmt.expr.params, ["x"])
         self.assertIsInstance(stmt.expr.body, ast.BinaryExpr)
 
-    def test_lambda_empty_params(self):
+    def test_lambda_vuota(self):
         # Test: () => 0
         tokens = [
             Token(TokenType.LPAREN),
@@ -200,8 +198,7 @@ class TestParser(unittest.TestCase):
         self.assertIsInstance(stmt.expr, ast.LambdaExpr)
         self.assertEqual(stmt.expr.params, [])
 
-    # Gestione degli errori
-    def test_syntax_error_missing_semicolon(self):
+    def test_errore_sintattico(self):
         # Test: let x = 5 (manca il punto e virgola)
         tokens = [
             Token(TokenType.LET),

@@ -2,6 +2,7 @@ from llvmlite import ir
 from src.ast_nodes import NodeVisitor
 from src.tokens import TokenType
 import src.ast_nodes as ast
+import re
 
 class LLVMCodeGen(NodeVisitor):
     def __init__(self):
@@ -18,7 +19,14 @@ class LLVMCodeGen(NodeVisitor):
 
     def generate_code(self, node):
         self.visit(node)
-        return str(self.module)
+        ir_code = str(self.module)
+        ir_code = re.sub(
+            r'(define .+? @".+?"\(.*?\))',
+            r'\1 "stack-probe-size"="1048576"',
+            ir_code
+        )
+        return ir_code
+        #return str(self.module)
 
     def visit_Program(self, node):
         # Raccolta delle dichiarazioni di tutte le funzioni

@@ -4,7 +4,7 @@ from src.lexer import Lexer
 
 class TestLexer(unittest.TestCase):
 
-    def test_keywords_and_identifiers(self):
+    def test_keywords_identificatori(self):
         input_text = "let func extern return if else while repeat myVar"
         lexer = Lexer(input_text)
 
@@ -20,7 +20,7 @@ class TestLexer(unittest.TestCase):
         self.assertEqual(token.type, TokenType.ID)
         self.assertEqual(token.value, "myVar")
 
-    def test_numbers(self):
+    def test_numeri(self):
         input_text = "123 0 9999"
         lexer = Lexer(input_text)
 
@@ -31,7 +31,7 @@ class TestLexer(unittest.TestCase):
         self.assertEqual(lexer.get_next_token().value, 0)
         self.assertEqual(lexer.get_next_token().value, 9999)
 
-    def test_relational_operators(self):
+    def test_operatori_relazionali(self):
         input_text = "< <= > >="
         lexer = Lexer(input_text)
 
@@ -40,7 +40,7 @@ class TestLexer(unittest.TestCase):
         self.assertEqual(lexer.get_next_token().type, TokenType.GT)
         self.assertEqual(lexer.get_next_token().type, TokenType.GE)
 
-    def test_equality_operators(self):
+    def test_operatori_uguaglianza_assegnamento(self):
         input_text = "= == ! !="
         lexer = Lexer(input_text)
 
@@ -49,7 +49,7 @@ class TestLexer(unittest.TestCase):
         self.assertEqual(lexer.get_next_token().type, TokenType.NOT)
         self.assertEqual(lexer.get_next_token().type, TokenType.NE)
 
-    def test_logical_operators_and_pipe(self):
+    def test_operatori_logici_pipe(self):
         input_text = "&& || |>"
         lexer = Lexer(input_text)
 
@@ -67,7 +67,7 @@ class TestLexer(unittest.TestCase):
         self.assertEqual(lexer.get_next_token().type, TokenType.ARROW)
         self.assertEqual(lexer.get_next_token().type, TokenType.ASSIGN)
 
-    def test_real_code_snippet(self):
+    def test_codice(self):
         input_text = "repeat(count) { print(100); }"
         lexer = Lexer(input_text)
 
@@ -90,7 +90,7 @@ class TestLexer(unittest.TestCase):
             token = lexer.get_next_token()
             self.assertEqual(token.type, exp_type, f"Atteso {exp_type}, ricevuto {token.type}")
 
-    def test_error_handling(self):
+    def test_gestione_errori(self):
         lexer = Lexer("&")
         with self.assertRaises(Exception):
             lexer.get_next_token()

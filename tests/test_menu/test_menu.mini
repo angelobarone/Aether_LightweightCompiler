@@ -1,0 +1,46 @@
+extern func show_menu();
+extern func get_input();
+extern func print_result(n);
+extern func print_prompt();
+extern func print_dash(n);
+extern func print_error(n);
+
+func calculate(op, a, b) {
+    if (op == 1) { return a + b; }
+    if (op == 2) { return a - b; }
+    if (op == 3) { return a * b; }
+    if (op == 4) { return a / b; }
+    return 0;
+}
+
+func main() {
+    let running = 1;
+
+    while (running) {
+        show_menu();
+        let choice = get_input();
+
+        if (choice == 5) {
+            print_error(-222);
+            running = 0;
+        } else {
+            if (choice > 0 && choice < 5) {
+                print_prompt();
+                let val1 = get_input();
+
+                print_prompt();
+                let val2 = get_input();
+
+                let res = calculate(choice, val1, val2);
+                res |> print_result;
+
+                repeat(20) {
+                    print_dash(0);
+                }
+            } else {
+                print_error(-9999);
+            }
+        }
+    }
+    return 0;
+}

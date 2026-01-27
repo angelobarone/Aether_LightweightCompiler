@@ -6,7 +6,7 @@ from src.tokens import TokenType
 from src.parser import Parser
 from src.semantic_analysis import SemanticAnalyzer, SemanticError
 from src.desugaring import Desugarer
-from src.optimizer import ConstantFolder
+from src.optimizer import Optimizer
 from src.codegen import LLVMCodeGen
 
 def get_all_tokens(lexer):
@@ -39,15 +39,6 @@ def compile_source(source_code, debug=False):
         return None
 
     try:
-        analyzer = SemanticAnalyzer()
-        analyzer.visit(ast_root)
-        if debug:
-            print("[DEBUG] Semantic Analysis: Nessun errore rilevato.")
-    except SemanticError as e:
-        print(f"[ERRORE] Semantica: {e}")
-        return None
-
-    try:
         desugarer = Desugarer()
         ast_root = desugarer.visit(ast_root)
         if debug:
@@ -57,7 +48,16 @@ def compile_source(source_code, debug=False):
         return None
 
     try:
-        optimizer = ConstantFolder()
+        analyzer = SemanticAnalyzer()
+        analyzer.visit(ast_root)
+        if debug:
+            print("[DEBUG] Semantic Analysis: Nessun errore rilevato.")
+    except SemanticError as e:
+        print(f"[ERRORE] Semantica: {e}")
+        return None
+
+    try:
+        optimizer = Optimizer()
         ast_root = optimizer.visit(ast_root)
         if debug:
             print("[DEBUG] Optimizer: Costanti pre-calcolate.")
