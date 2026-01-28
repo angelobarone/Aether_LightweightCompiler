@@ -8,6 +8,8 @@ Questo progetto implementa un compilatore completo per un linguaggio imperativo 
 Il compilatore include una pipeline moderna composta da: Lexer manuale, Parser ricorsivo discendente, Analisi Semantica (Scope & Arity check), Desugaring (Pipe & Repeat loop), Ottimizzatore (Constant Folding & DCE) e Code Generation.
 
 ---
+## Perchè Aether?
+Lo scopo del linguaggio trova fondamento nella realizzazione di un medium affidabile che connetta la leggerezza della sintassi alla potenza della macchina.
 
 ## 📋 Requisiti e Dipendenze
 
