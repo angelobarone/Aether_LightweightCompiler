@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/minilang_compiler.iml" filepath="$PROJECT_DIR$/minilang_compiler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Aether_LightweightCompiler.iml" filepath="$PROJECT_DIR$/Aether_LightweightCompiler.iml" />
     </modules>
   </component>
 </project>
