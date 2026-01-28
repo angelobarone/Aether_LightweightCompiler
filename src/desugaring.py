@@ -5,6 +5,7 @@ from src.tokens import TokenType
 class Desugarer(NodeVisitor):
     def __init__(self):
         self.counter_id = 0
+        self.generated_functions = [] #lambda
 
     def _get_unique_var(self):
         name = f"__repeat_counter_{self.counter_id}"
@@ -13,6 +14,7 @@ class Desugarer(NodeVisitor):
 
     def visit_Program(self, node):
         node.declarations = [self.visit(decl) for decl in node.declarations]
+        node.declarations.extend(self.generated_functions)
         return node
 
     def visit_FunctionDecl(self, node):
@@ -110,6 +112,23 @@ class Desugarer(NodeVisitor):
     def visit_CallExpr(self, node):
         node.args = [self.visit(arg) for arg in node.args]
         return node
+
+    def visit_LambdaExpr(self, node):
+        # Generiamo una nuova funzione
+        func_name = f"__lambda_{self.counter_id}"
+        self.counter_id += 1
+        visited_body_expr = self.visit(node.body)
+        return_stmt = ast.ReturnStmt(value=visited_body_expr)
+
+        func_body_block = ast.Block(statements=[return_stmt])
+        new_func = ast.FunctionDecl(
+            name=func_name,
+            params=node.params,
+            body=func_body_block
+        )
+        self.generated_functions.append(new_func)
+        return ast.VariableExpr(name=func_name)
+
 
     def visit_LiteralExpr(self, node): return node
     def visit_VariableExpr(self, node): return node
