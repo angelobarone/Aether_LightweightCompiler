@@ -94,6 +94,7 @@ def main():
     if llvm_result:
         with open(args.output, 'w') as f:
             f.write(llvm_result)
+        print("------AETHER------")
         print(f"[SUCCESS] Codice LLVM IR scritto in: {args.output}")
         print("-" * 50)
         print("PER ESEGUIRE IL CODICE:")
