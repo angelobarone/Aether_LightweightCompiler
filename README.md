@@ -29,15 +29,15 @@ Il progetto dipende dalla libreria `llvmlite` per la generazione dell'IR.
     ├── README.md                 # Documentazione
     ├── src/                      # Codice sorgente del compilatore
     │   ├── __init__.py
-    │   ├── tokens.py             # Definizioni Token ed Enum
-    │   ├── lexer.py              # Analisi Lessicale manuale
-    │   ├── ast_nodes.py          # Definizione nodi AST (Dataclasses)
-    │   ├── parser.py             # Analisi Sintattica Ricorsiva
-    │   ├── semantic_analysis.py  # Validazione Scope e Arity
-    │   ├── optimizer.py          # Constant Folding e Dead Code Elimination
-    │   ├── desugaring.py         # Trasformazione AST (Repeat -> While, Pipe -> Call)
-    │   └── codegen.py            # Backend LLVM IR
-    └── tests/                    # Suite di test unitari
+    │   ├── tokens.py             # Definizioni Token
+    │   ├── lexer.py              # Analisi Lessicale 
+    │   ├── ast_nodes.py          # Definizione nodi AST e NodeVisitor
+    │   ├── parser.py             # Analisi Sintattica
+    │   ├── semantic_analysis.py  # Validazione Semantica del codice
+    │   ├── optimizer.py          # Ottimizzazione del codice
+    │   ├── desugaring.py         # Trasformazione delle strutture complesse dell'AST
+    │   └── codegen.py            # Generazione del codice LLVM IR
+    └── tests/                    # Suite di test 
       ├── test_lexer.py
       ├── test_parser.py    
       ├── test_semantic.py
