@@ -93,20 +93,18 @@ Eseguire tutti i test:
       }
     }
 
-### Caratteristiche Tecniche
-1. Tipizzazione Dinamica (Frontend) / Statica (Backend): Le variabili sono inferite, ma nel backend LLVM sono trattate come interi a 64 bit (i64).
+### ⚙️ Caratteristiche Tecniche
+1. Architettura Custom: Frontend (Lexer e Parser) implementato manualmente senza generatori automatici, con Backend basato su LLVM IR.
 
-2. Flat Scope: Le variabili definite in blocchi interni (if, while) rimangono visibili nel resto della funzione.
+2. Tipizzazione Ibrida: Sintassi a tipizzazione implicita nel frontend, compilata staticamente in interi a 64 bit (i64) per massimizzare le performance.
 
-3. Variable Shadowing: È possibile ridichiarare una variabile con let. Questo alloca nuova memoria sullo stack, rendendo inaccessibile la precedente istanza per il resto dello scope corrente.
+3. Gestione Memoria & Scope: Allocazione variabili sullo stack con supporto al Variable Shadowing (ridichiarazione sicura) e Flat Scope (visibilità estesa dai blocchi interni).
 
-4. Ottimizzazioni:
+4. Pipeline di Ottimizzazione: Modulo dedicato per Constant Folding, Dead Code Elimination e Semplificazione Algebrica direttamente sull'AST.
 
-Constant Folding: 3 + 4 * 2 viene compilato direttamente come 11.
+5. Desugaring & Funzionalità Avanzate: Trasformazione automatica di costrutti sintattici (Pipe Operator |> e cicli repeat) e gestione delle funzioni anonime (Lambda Lifting).
 
-Dead Code Elimination: while(0) { ... } viene rimosso completamente dall'eseguibile.
-
-Algebraic Simplification: x * 1 diventa x, x * 0 diventa 0.
+6. FFI (Foreign Function Interface): Interoperabilità con librerie C native tramite la keyword extern per estendere le funzionalità di I/O.
 
 ## ⚠️ Note Implementative
 ### Gestione Memoria:
