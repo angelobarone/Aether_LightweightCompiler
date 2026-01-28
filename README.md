@@ -1,4 +1,4 @@
-# Compilatore Mini-Linguaggio (MiniLang) con Backend LLVM
+# Aether - Lightweight Syntax and Affidability
 
 **Studente:** Angelo Barone  
 **Corso:** Ingegneria dei Linguaggi di Programmazione
@@ -18,6 +18,7 @@ Per eseguire il compilatore e generare gli eseguibili finali sono necessari i se
 * **Clang**: Compilatore C/C++ (parte della suite LLVM). È necessario per:
     1.  Compilare il runtime di supporto (`runtime.c`).
     2.  Effettuare il linking dell'eseguibile finale.
+* **GCC**: per Linking su Windows.
 
 ### Librerie Python
 Il progetto dipende dalla libreria `llvmlite` per la generazione dell'IR.
